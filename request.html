@@ -23,8 +23,7 @@
       box-shadow: 0 4px 18px rgba(0,0,0,0.10);
     }
 
-    h1 {
-      margin-top: 0;
+    h1, h2 {
       color: #0b4ea2;
       text-align: center;
     }
@@ -52,15 +51,33 @@
       min-height: 100px;
     }
 
-    button {
+    button,
+    .button-link {
+      display: block;
       width: 100%;
-      margin-top: 24px;
+      box-sizing: border-box;
+      margin-top: 18px;
       background: #0b4ea2;
       color: white;
       border: none;
       padding: 16px;
       border-radius: 10px;
       font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .secondary-button {
+      background: #e7eef8;
+      color: #0b4ea2;
+    }
+
+    .home-link {
+      display: block;
+      margin-bottom: 20px;
+      color: #0b4ea2;
+      text-decoration: none;
       font-weight: bold;
     }
 
@@ -70,12 +87,17 @@
       font-weight: bold;
     }
 
-    .back-link {
-      display: block;
-      margin-top: 20px;
+    #confirmation-screen {
+      display: none;
       text-align: center;
-      color: #0b4ea2;
-      text-decoration: none;
+    }
+
+    .po-box {
+      margin: 20px 0;
+      padding: 16px;
+      background: #f4f7fb;
+      border-radius: 10px;
+      font-size: 18px;
     }
   </style>
 </head>
@@ -84,61 +106,91 @@
 
   <div class="form-card">
 
-    <h1>Request Delivery</h1>
+    <a class="home-link" href="index.html">Home</a>
 
-    <form id="delivery-form">
+    <div id="form-screen">
 
-      <label>Company Name</label>
-      <input type="text" name="company_name" required>
+      <h1>Request Delivery</h1>
 
-      <label>Vendor / Supply House</label>
-      <input type="text" name="vendor_supply_house" required>
+      <form id="delivery-form">
 
-      <label>Pickup Address</label>
-      <input type="text" name="pickup_address" required>
+        <label>Company Name</label>
+        <input type="text" name="company_name" required>
 
-      <label>Delivery Address</label>
-      <input type="text" name="delivery_address" required>
+        <label>Vendor / Supply House</label>
+        <input type="text" name="vendor_supply_house" required>
 
-      <label>Purchase Order Number</label>
-      <input type="text" name="purchase_order" required>
+        <label>Pickup Address</label>
+        <input type="text" name="pickup_address" required>
 
-      <label>Contact Name</label>
-      <input type="text" name="contact_name" required>
+        <label>Delivery Address</label>
+        <input type="text" name="delivery_address" required>
 
-      <label>Contact Phone Number</label>
-      <input type="tel" name="contact_phone" required>
+        <label>Purchase Order Number</label>
+        <input type="text" name="purchase_order" required>
 
-      <label>Email Address</label>
-      <input type="email" name="email" required>
+        <label>Contact Name</label>
+        <input type="text" name="contact_name" required>
 
-      <label>Part Description</label>
-      <textarea name="part_description" required></textarea>
+        <label>Contact Phone Number</label>
+        <input type="tel" name="contact_phone" required>
 
-      <label>Special Instructions</label>
-      <textarea name="notes"></textarea>
+        <label>Email Address</label>
+        <input type="email" name="email" required>
 
-      <label>Delivery Needed</label>
-      <select name="delivery_needed" required>
-        <option value="">Select When Needed</option>
-        <option value="Now">Now</option>
-        <option value="By End of Day">By End of Day</option>
-        <option value="Next Business Day">Next Business Day</option>
-      </select>
+        <label>Part Description</label>
+        <textarea name="part_description" required></textarea>
 
-      <button type="submit">Submit Request</button>
+        <label>Special Instructions</label>
+        <textarea name="notes"></textarea>
 
-      <div id="status"></div>
+        <label>Delivery Needed</label>
+        <select name="delivery_needed" required>
+          <option value="">Select When Needed</option>
+          <option value="Now">Now</option>
+          <option value="By End of Day">By End of Day</option>
+          <option value="Next Business Day">Next Business Day</option>
+        </select>
 
-    </form>
+        <button type="submit">Submit Request</button>
 
-    <a class="back-link" href="index.html">Back to Home</a>
+        <div id="status"></div>
+
+      </form>
+
+    </div>
+
+    <div id="confirmation-screen">
+
+      <h2>Thank you! Your order has been received.</h2>
+
+      <div class="po-box">
+        Purchase Order: <strong id="confirmation-po"></strong>
+      </div>
+
+      <a class="button-link" href="tel:8063823855">
+        Call 806-382-3855
+      </a>
+
+      <button class="secondary-button" id="submit-another" type="button">
+        Submit Another Request
+      </button>
+
+      <a class="button-link secondary-button" href="index.html">
+        Home
+      </a>
+
+    </div>
 
   </div>
 
   <script>
     const form = document.getElementById("delivery-form");
     const statusMessage = document.getElementById("status");
+    const formScreen = document.getElementById("form-screen");
+    const confirmationScreen = document.getElementById("confirmation-screen");
+    const confirmationPO = document.getElementById("confirmation-po");
+    const submitAnotherButton = document.getElementById("submit-another");
 
     form.addEventListener("submit", async function(event) {
       event.preventDefault();
@@ -159,14 +211,24 @@
         });
 
         if (response.ok) {
-          statusMessage.textContent = "Delivery request submitted successfully.";
+          confirmationPO.textContent = data.purchase_order;
           form.reset();
+          statusMessage.textContent = "";
+          formScreen.style.display = "none";
+          confirmationScreen.style.display = "block";
+          window.scrollTo(0, 0);
         } else {
           statusMessage.textContent = "Submission failed. Please try again.";
         }
       } catch (error) {
         statusMessage.textContent = "Submission failed. Please check your connection.";
       }
+    });
+
+    submitAnotherButton.addEventListener("click", function() {
+      confirmationScreen.style.display = "none";
+      formScreen.style.display = "block";
+      window.scrollTo(0, 0);
     });
   </script>
 
