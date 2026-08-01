@@ -36,7 +36,8 @@
     }
 
     input,
-    textarea {
+    textarea,
+    select {
       width: 100%;
       padding: 14px;
       margin-top: 6px;
@@ -44,6 +45,7 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 16px;
+      background: white;
     }
 
     textarea {
@@ -109,6 +111,13 @@
 
       <label>Special Instructions</label>
       <textarea name="notes"></textarea>
+
+      <label>Delivery Priority</label>
+      <select name="priority" required>
+        <option value="">Select Priority</option>
+        <option value="Standard">Standard</option>
+        <option value="Rush">Rush</option>
+      </select>
 
       <button type="submit">Submit Request</button>
 
