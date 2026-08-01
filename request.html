@@ -2,19 +2,63 @@
 <html>
 <head>
   <title>Request Delivery</title>
+
+  <style>
+    body{
+      margin:0;
+      padding:25px;
+      font-family:Arial,sans-serif;
+      background:#f4f7fb;
+    }
+
+    h1{
+      color:#0b4ea2;
+    }
+
+    label{
+      font-weight:bold;
+    }
+
+    input{
+      width:100%;
+      padding:14px;
+      margin-top:6px;
+      box-sizing:border-box;
+      border:1px solid #ccc;
+      border-radius:8px;
+      font-size:16px;
+    }
+
+    button{
+      width:100%;
+      background:#0b4ea2;
+      color:white;
+      border:none;
+      padding:16px;
+      border-radius:10px;
+      font-size:18px;
+    }
+  </style>
 </head>
+
 <body>
   <h1>Request Delivery</h1>
 
   <form>
-    <label>Pickup Address</label><br>
-    <input type="text"><br><br>
+    <label>Pickup Address</label>
+    <input type="text">
 
-    <label>Drop-off Address</label><br>
-    <input type="text"><br><br>
+    <br><br>
 
-    <label>Purchase Order Number</label><br>
-    <input type="text"><br><br>
+    <label>Drop-off Address</label>
+    <input type="text">
+
+    <br><br>
+
+    <label>Purchase Order Number</label>
+    <input type="text">
+
+    <br><br>
 
     <button type="submit">Submit Request</button>
   </form>
