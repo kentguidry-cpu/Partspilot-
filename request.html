@@ -23,7 +23,8 @@
       box-shadow: 0 4px 18px rgba(0,0,0,0.10);
     }
 
-    h1, h2 {
+    h1,
+    h2 {
       color: #0b4ea2;
       text-align: center;
     }
@@ -57,11 +58,11 @@
       width: 100%;
       box-sizing: border-box;
       margin-top: 18px;
+      padding: 16px;
+      border: none;
+      border-radius: 10px;
       background: #0b4ea2;
       color: white;
-      border: none;
-      padding: 16px;
-      border-radius: 10px;
       font-size: 18px;
       font-weight: bold;
       text-align: center;
@@ -77,8 +78,8 @@
       display: block;
       margin-bottom: 20px;
       color: #0b4ea2;
-      text-decoration: none;
       font-weight: bold;
+      text-decoration: none;
     }
 
     #status {
@@ -165,7 +166,8 @@
       <h2>Thank you! Your order has been received.</h2>
 
       <div class="po-box">
-        Purchase Order: <strong id="confirmation-po"></strong>
+        Purchase Order:
+        <strong id="confirmation-po"></strong>
       </div>
 
       <a class="button-link" href="tel:8063823855">
@@ -212,16 +214,21 @@
 
         if (response.ok) {
           confirmationPO.textContent = data.purchase_order;
+
           form.reset();
           statusMessage.textContent = "";
+
           formScreen.style.display = "none";
           confirmationScreen.style.display = "block";
+
           window.scrollTo(0, 0);
         } else {
-          statusMessage.textContent = "Submission failed. Please try again.";
+          statusMessage.textContent =
+            "Submission failed. Please try again.";
         }
       } catch (error) {
-        statusMessage.textContent = "Submission failed. Please check your connection.";
+        statusMessage.textContent =
+          "Submission failed. Please check your connection.";
       }
     });
 
